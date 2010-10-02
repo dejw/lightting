@@ -12,6 +12,7 @@ __AUTHOR="Dawid Fatyga"
 server.modules = (
 	"mod_access",
 	"mod_alias",
+	"mod_cgi",
 	"mod_accesslog",
 )
 index-file.names           = ( "index.php", "index.html",
@@ -157,22 +158,28 @@ force_config=true
 document_root=$__BASE__
 not_daemon=true
 
+php_path=`which php5-cgi`
 chroot=/
 access="$__BASE__/access.log"
 error="$__BASE__/error.log"
 upload="$__BASE__/uploads"
 pid_file="$__BASE__/lighttpd.pid"
 
+function config(){
+	echo $1 >> $config_file
+}
+
 if [ ! -e $config_file -o $force_config ]; then
 	sed --silent -e '/DEFAULT_CONFIG$/,/^DEFAULT_CONFIG$/p' "$0" | sed -e '/DEFAULT_CONFIG$/d' > $config_file
-	echo "# Config generated on `date`" >> $config_file
-	echo "server.document-root = \"$document_root\"" >> $config_file
-	echo "server.port = $port" >> $config_file
-	echo "server.bind = \"$bind\"" >> $config_file
-	echo "accesslog.filename = \"$access\"" >> $config_file
-	echo "server.errorlog = \"$error\"" >> $config_file
-	echo "server.upload-dirs = ( \"$upload\" )" >> $config_file
-	echo "server.pid-file = \"$pid_file\"" >> $config_file
+	config "# Config generated on `date`"
+	config "server.document-root = \"$document_root\""
+	config "server.port = $port"
+	config "server.bind = \"$bind\""
+	config "accesslog.filename = \"$access\""
+	config "server.errorlog = \"$error\""
+	config "server.upload-dirs = ( \"$upload\" )"
+	config "server.pid-file = \"$pid_file\""
+	config "cgi.assign = ( \".php\" => \"$php_path\" )"
 fi
 
 log "Listening on $bind:$port..."
