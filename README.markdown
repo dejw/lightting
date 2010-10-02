@@ -12,6 +12,6 @@ production.
 
 ## installation
 
-    wget http://github.com/dejw/lightting/raw/master/lightting.sh
+    wget http://github.com/dejw/lightting/raw/master//lightning.sh
 
 See `lightting.sh --help` for available options.
