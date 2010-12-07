@@ -12,6 +12,6 @@ production.
 
 ## installation
 
-    wget http://github.com/dejw/lightting/raw/master//lightning.sh
+    wget --no-check-certificate http://github.com/dejw/lightting/raw/master//lightting.sh && chmod +x lightting.sh
 
 See `lightting.sh --help` for available options.

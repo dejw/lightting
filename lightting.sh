@@ -107,6 +107,14 @@ function showDefaultConfig(){
   exit
 }
 
+__BASE__=`pwd`
+port=8080
+bind=localhost
+
+config_file=.lightting.conf
+force_config=true
+
+document_root=$__BASE__
 
 OLD_IFS="$IFS";
 IFS=" "
@@ -133,8 +141,8 @@ for (( i=0; i <= $#; i++ )); do
   parameter "-b" bind
   parameter "--bind" bind
 
-  parameter "-r" document-root
-  parameter "--document-root" document-root
+  parameter "-r" document_root
+  parameter "--document-root" document_root
 
   callback "-v", version
   callback "--version" version
@@ -147,15 +155,6 @@ done
 checkFor lighttpd
 checkFor sed
 
-__BASE__=`pwd`
-
-port=8080
-bind=localhost
-
-config_file=.lightting.conf
-force_config=true
-
-document_root=$__BASE__
 not_daemon=true
 
 php_path=`which php5-cgi`
